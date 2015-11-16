@@ -66,7 +66,7 @@ if (Config.GitterBridge.ENABLED) {
 							return;
 						}
 						GitterBridge.freenode.whois(cmdSplit[0], function(username, whoisinfo) {
-							GitterBridge.gitter.say(Config.GitterBridge.Gitter_Channel, "[GitterBridge] Whois for " + username + ":\n" + JSON.stringify(whoisinfo, null, "\t"));
+							GitterBridge.gitter.say(Config.GitterBridge.Gitter_Channel, "[GitterBridge] Whois for " + username + ":\n```\n" + JSON.stringify(whoisinfo, null, "\t") + "\n```");
 						}.bind(this, cmdSplit[0]));
 						break;
 					case "topic":
@@ -85,9 +85,25 @@ if (Config.GitterBridge.ENABLED) {
 						if (cmdSplit.length < 1) {
 							GitterBridge.freenode.say(Config.GitterBridge.IRC_Channel, "XCloud Migration Guide: http://portal.new-xkit.com/assets/migration/xcloud-migration.html");
 						} else {
-							GitterBridge.freenode.say(Config.GitterBridge.IRC_Channel, cmdSplit[0] + ": XCloud Migration Guide: http://portal.new-xkit.com/assets/migration/xcloud-migration.html");
+							GitterBridge.freenode.notice(cmdSplit[0], "XCloud Migration Guide: http://portal.new-xkit.com/assets/migration/xcloud-migration.html");
 						}
 						GitterBridge.gitter.say(Config.GitterBridge.Gitter_Channel, "[GitterBridge] Migration guide linked.");
+						break;
+					case "chrome":
+						if (cmdSplit.length < 1) {
+							GitterBridge.freenode.say(Config.GitterBridge.IRC_Channel, "New XKit Download for Google Chrome: http://new-xkit-extension.tumblr.com/chrome");
+						} else {
+							GitterBridge.freenode.notice(cmdSplit[0], "New XKit Download for Google Chrome: http://new-xkit-extension.tumblr.com/chrome");
+						}
+						GitterBridge.gitter.say(Config.GitterBridge.Gitter_Channel, "[GitterBridge] Chrome download linked.");
+						break;
+					case "firefox":
+						if (cmdSplit.length < 1) {
+							GitterBridge.freenode.say(Config.GitterBridge.IRC_Channel, "New XKit Download for Mozilla Firefox: http://new-xkit-extension.tumblr.com/firefox");
+						} else {
+							GitterBridge.freenode.notice(cmdSplit[0], "New XKit Download for Mozilla Firefox: http://new-xkit-extension.tumblr.com/firefox");
+						}
+						GitterBridge.gitter.say(Config.GitterBridge.Gitter_Channel, "[GitterBridge] Firefox download linked.");
 						break;
 					case "edump":
 						var msg = "How to create an extension dump:\n" +
@@ -97,9 +113,10 @@ if (Config.GitterBridge.ENABLED) {
 						"4.) Depending on what we ask for, click either 'Extension Info Export' (if we don't say anything specifically, do this) or 'Full Configuration Export'\n" +
 						"5.) Copy the https://gist.github.com/ link it generates and give it to us\n";
 						if (cmdSplit.length >= 1) {
-							msg = cmdSplit[0] + ": " + msg;
+							GitterBridge.freenode.notice(cmdSplit[0], msg);
+						} else {
+							GitterBridge.freenode.say(Config.GitterBridge.IRC_Channel, msg);
 						}
-						GitterBridge.freenode.say(Config.GitterBridge.IRC_Channel, msg);
 						GitterBridge.gitter.say(Config.GitterBridge.Gitter_Channel, "[GitterBridge] Extension dump guide sent.");
 						break;
 					case "help":
@@ -111,6 +128,8 @@ if (Config.GitterBridge.ENABLED) {
 						Config.GitterBridge.Gitter_Command_Prefix + "whois** <nick> - Retrieve whois information\n**" +
 						Config.GitterBridge.Gitter_Command_Prefix + "topic** [topic] - Get or set the IRC Channel topic\n**" +
 						Config.GitterBridge.Gitter_Command_Prefix + "xcloud** [nick] - Link the XCloud migration guide [to a user]\n**" +
+						Config.GitterBridge.Gitter_Command_Prefix + "chrome** [nick] - Link the Chrome download link [to a user]\n**" +
+						Config.GitterBridge.Gitter_Command_Prefix + "firefox** [nick] - Link the Firefox download link [to a user]\n**" +
 						Config.GitterBridge.Gitter_Command_Prefix + "edump** [nick] - Print a step by step guide to dump extensions [to a user]\n**" +
 						Config.GitterBridge.Gitter_Command_Prefix + "help** - Print this help message\n" +
 						"Credits:\nGitterBridge v1.0 written by **Wolvan**"

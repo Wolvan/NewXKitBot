@@ -21,7 +21,7 @@ module.exports = function(Config) {
 		}
 	});
 	this.freenode.addListener('message' + Config.IRC_Channel, function (from, message) {
-		gitter.say(Config.Gitter_Channel, "<" + from.substring(0,1) + '\u0081' + from.substring(1) + "> " + message);
+		gitter.say(Config.Gitter_Channel, "`" + from.substring(0,1) + '\u0081' + from.substring(1) + "` " + message);
 	});
 
 	this.freenode.addListener('registered', function(message) {
@@ -39,7 +39,7 @@ module.exports = function(Config) {
 		freenode.send("NAMES", Config.IRC_Channel);
 		if (freenode.nick === nick) { return; }
 		gitter.say(Config.Gitter_Channel, "*" + nick + " has joined.*");
-		freenode.say(nick, Config.IRC_WelcomeMsg);
+		freenode.notice(nick, Config.IRC_WelcomeMsg);
 	});
 	this.freenode.addListener('kick' + Config.IRC_Channel, function(nick, by, reason, message) {
 		if (freenode.nick === nick) { return; }
